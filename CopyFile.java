@@ -3,52 +3,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ÊµÏÖÎÄ¼şµÄ¿½±´
+ *åœ¨æ–°çš„æ–‡ä»¶ç›®å½•ä¸‹ï¼Œå»æ‰Buterknifeçš„R2å’ŒBindView
  */
 public class CopyFile {
 
     /**
-     * ¸´ÖÆÄ¿Â¼
+     * å¤åˆ¶ç›®å½•
      * @param fromDir
      * @param toDir
      * @throws IOException
      */
     public static void copyDir(String fromDir,String toDir) throws IOException{
-        //´´½¨Ä¿Â¼µÄFile¶ÔÏó
+        //åˆ›å»ºç›®å½•çš„Fileå¯¹è±¡
         File dirSouce = new File(fromDir);
-        //ÅĞ¶ÏÔ´Ä¿Â¼ÊÇ²»ÊÇÒ»¸öÄ¿Â¼
+        //åˆ¤æ–­æºç›®å½•æ˜¯ä¸æ˜¯ä¸€ä¸ªç›®å½•
         if (!dirSouce.isDirectory()) {
-            //Èç¹û²»ÊÇÄ¿Â¼ÄÇ¾Í²»¸´ÖÆ
+            //å¦‚æœä¸æ˜¯ç›®å½•é‚£å°±ä¸å¤åˆ¶
             return;
         }
-        //´´½¨Ä¿±êÄ¿Â¼µÄFile¶ÔÏó
+        //åˆ›å»ºç›®æ ‡ç›®å½•çš„Fileå¯¹è±¡
         File destDir = new File(toDir);
-        //Èç¹ûÄ¿µÄÄ¿Â¼²»´æÔÚ
+        //å¦‚æœç›®çš„ç›®å½•ä¸å­˜åœ¨
         if(!destDir.exists()){
-            //´´½¨Ä¿µÄÄ¿Â¼
+            //åˆ›å»ºç›®çš„ç›®å½•
             destDir.mkdir();
         }
-        //»ñÈ¡Ô´Ä¿Â¼ÏÂµÄFile¶ÔÏóÁĞ±í
+        //è·å–æºç›®å½•ä¸‹çš„Fileå¯¹è±¡åˆ—è¡¨
         File[]files = dirSouce.listFiles();
         for (File file : files) {
-            //Æ´½ÓĞÂµÄfromDir(fromFile)ºÍtoDir(toFile)µÄÂ·¾¶
+            //æ‹¼æ¥æ–°çš„fromDir(fromFile)å’ŒtoDir(toFile)çš„è·¯å¾„
             String strFrom = fromDir + File.separator + file.getName();
             String strTo = toDir + File.separator + file.getName();
-            //ÅĞ¶ÏFile¶ÔÏóÊÇÄ¿Â¼»¹ÊÇÎÄ¼ş
-            //ÅĞ¶ÏÊÇ·ñÊÇÄ¿Â¼
+            //åˆ¤æ–­Fileå¯¹è±¡æ˜¯ç›®å½•è¿˜æ˜¯æ–‡ä»¶
+            //åˆ¤æ–­æ˜¯å¦æ˜¯ç›®å½•
             if (file.isDirectory()) {
-                //µİ¹éµ÷ÓÃ¸´ÖÆÄ¿Â¼µÄ·½·¨
+                //é€’å½’è°ƒç”¨å¤åˆ¶ç›®å½•çš„æ–¹æ³•
                 copyDir(strFrom,strTo);
             }
-            //ÅĞ¶ÏÊÇ·ñÊÇÎÄ¼ş
+            //åˆ¤æ–­æ˜¯å¦æ˜¯æ–‡ä»¶
             if (file.isFile()) {
-                //µİ¹éµ÷ÓÃ¸´ÖÆÎÄ¼şµÄ·½·¨
+                //é€’å½’è°ƒç”¨å¤åˆ¶æ–‡ä»¶çš„æ–¹æ³•
                 copyFile(strFrom,strTo);
             }
         }
     }
     /**
-     * ¸´ÖÆÎÄ¼ş
+     * å¤åˆ¶æ–‡ä»¶
      * @param fromFile
      * @param toFile
      * @throws IOException
@@ -64,14 +64,14 @@ public class CopyFile {
             OutputStreamWriter osw=new OutputStreamWriter(fos, "UTF-8");
             BufferedWriter  bw=new BufferedWriter(osw);
 
-            BufferedReader br = new BufferedReader(new FileReader(file));// ¹¹ÔìÒ»¸öBufferedReaderÀàÀ´¶ÁÈ¡ÎÄ¼ş
+            BufferedReader br = new BufferedReader(new FileReader(file));// æ„é€ ä¸€ä¸ªBufferedReaderç±»æ¥è¯»å–æ–‡ä»¶
             String s = null;
             boolean isNext = false;
 
             String tempKey = "";
 
-            while ((s = br.readLine()) != null) {// Ê¹ÓÃreadLine·½·¨£¬Ò»´Î¶ÁÒ»ĞĞ
-                // view bindViewµÄid
+            while ((s = br.readLine()) != null) {// ä½¿ç”¨readLineæ–¹æ³•ï¼Œä¸€æ¬¡è¯»ä¸€è¡Œ
+                // view bindViewçš„id
                 if (s.contains("@BindView")) {
                     String str = s.substring(s.lastIndexOf(".") + 1, s.length() - 1);
                     bw.write("//"+s+"\n");
@@ -81,7 +81,7 @@ public class CopyFile {
                 }
 
                 if (isNext) {
-                    //view ±¾µØÃû³Æ
+                    //view æœ¬åœ°åç§°
                     String str = s.substring(s.lastIndexOf(" "), s.length() - 1);
 
                     map.put(tempKey, str);
@@ -120,18 +120,18 @@ public class CopyFile {
             osw.close();
             fos.close();
         }else{
-            //×Ö½ÚÊäÈëÁ÷¡ª¡ª¶ÁÈ¡ÎÄ¼ş
+            //å­—èŠ‚è¾“å…¥æµâ€”â€”è¯»å–æ–‡ä»¶
             FileInputStream in = new FileInputStream(fromFile);
-            //×Ö½ÚÊä³öÁ÷¡ª¡ªĞ´ÈëÎÄ¼ş
+            //å­—èŠ‚è¾“å‡ºæµâ€”â€”å†™å…¥æ–‡ä»¶
             FileOutputStream out = new FileOutputStream(toFile);
-            //°Ñ¶ÁÈ¡µ½µÄÄÚÈİĞ´ÈëĞÂÎÄ¼ş
-            //°Ñ×Ö½ÚÊı×éÉèÖÃ´óÒ»Ğ©   1*1024*1024=1M
+            //æŠŠè¯»å–åˆ°çš„å†…å®¹å†™å…¥æ–°æ–‡ä»¶
+            //æŠŠå­—èŠ‚æ•°ç»„è®¾ç½®å¤§ä¸€äº›   1*1024*1024=1M
             byte[] bs = new byte[1 * 1024 * 1024];
             int count = 0;
             while ((count = in.read(bs)) != -1) {
                 out.write(bs, 0, count);
             }
-            //¹Ø±ÕÁ÷
+            //å…³é—­æµ
             in.close();
             out.flush();
             out.close();
@@ -139,7 +139,7 @@ public class CopyFile {
     }
 
 
-    // Ê¹ÓÃÊ¾Àı
+    // ä½¿ç”¨ç¤ºä¾‹
     public static void main(String[] args) {
 
         String rootPath ="D:\\temp";
