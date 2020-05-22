@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 在原来的目录，去掉 butterknife 的R2 和 BindView
+ * 实现文件的拷贝
  */
 public class CopyFile2 {
 
@@ -49,13 +49,14 @@ public class CopyFile2 {
         Map<String, String> map = new HashMap<>();
         File file = new File(fromFile);
 
-        File tempFile  = new File(fromFile+".txt");
-        if(tempFile.exists()){
-            tempFile.delete();
-        }
-        tempFile.createNewFile();
+
 
         if (file.getName().endsWith(".java")) {
+            File tempFile  = new File(fromFile+".txt");
+            if(tempFile.exists()){
+                tempFile.delete();
+            }
+            tempFile.createNewFile();
             FileOutputStream fos=new FileOutputStream(tempFile);
             OutputStreamWriter osw=new OutputStreamWriter(fos, "UTF-8");
             BufferedWriter  bw=new BufferedWriter(osw);
@@ -117,21 +118,23 @@ public class CopyFile2 {
             fos.close();
 
 
-
+            file.delete();
+            if(tempFile.renameTo(new File(fromFile))){
+                System.out.println("成功");
+            }else{
+                System.out.println("失败");
+            }
+            tempFile.delete();
 
 
         }else{
            //不是java文件不用管
+            return;
         }
 
 
-        file.delete();
-        if(tempFile.renameTo(new File(fromFile))){
-            System.out.println("成功");
-        }else{
-            System.out.println("失败");
-        }
-        tempFile.delete();
+
+
 
 
     }
@@ -153,7 +156,8 @@ public class CopyFile2 {
                 e.printStackTrace();
             }
         }else{
-            String resource = rootPath+"\\dbex_android";
+//            String resource = rootPath+"\\dbex_android";
+            String resource ="D:\\work\\temp\\dbex_android";
 
             try {
                 copyDir(resource);
