@@ -82,9 +82,21 @@ public class CopyFile {
 
                 if (isNext) {
                     //view 本地名称
-                    String str = s.substring(s.lastIndexOf(" "), s.length() - 1);
-
-                    map.put(tempKey, str);
+                    s = s.trim();   
+                    String []strs = s.split(" ");
+                    System.out.println(strs[0]);
+                    System.out.println(strs[1]);
+                    System.out.println("-----"+s+"-------");
+                     
+                    map.put(tempKey, strs[1]);
+                    //                        bw.write("        ");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("        ");
+                    sb.append(strs[0]);
+                    sb.append(" ");
+                    sb.append(strs[1]);
+                    sb.append("\n");
+                    bw.write(sb.toString());
 
                     isNext = false;
                 } else {
