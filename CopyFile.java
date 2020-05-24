@@ -1,3 +1,4 @@
+package remove_butterknife;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +55,9 @@ public class CopyFile {
      * @throws IOException
      */
     public static void copyFile(String fromFile,String toFile) throws IOException {
+        
+        
+            boolean isFragment = false;
 
 
         Map<String, String> map = new HashMap<>();
@@ -75,6 +79,8 @@ public class CopyFile {
                 if (s.contains("@BindView")) {
                     String str = s.substring(s.lastIndexOf(".") + 1, s.length() - 1);
                     bw.write("//"+s+"\n");
+                    
+//                    System.out.println(str);
                     tempKey = str;
                     isNext = true;
                     continue;
@@ -82,13 +88,14 @@ public class CopyFile {
 
                 if (isNext) {
                     //view 本地名称
+
                     s = s.trim();   
                     String []strs = s.split(" ");
                     System.out.println(strs[0]);
                     System.out.println(strs[1]);
                     System.out.println("-----"+s+"-------");
                      
-                    map.put(tempKey, strs[1]);
+                    map.put(tempKey, strs[1].substring(0,strs[1].length()-1));
                     //                        bw.write("        ");
                     StringBuilder sb = new StringBuilder();
                     sb.append("        ");
@@ -97,10 +104,15 @@ public class CopyFile {
                     sb.append(strs[1]);
                     sb.append("\n");
                     bw.write(sb.toString());
-
+                          
                     isNext = false;
                 } else {
-                    if (s.contains("public") && s.contains("void") && s.contains("initView()") && s.contains("{")) {
+                        if(s.trim().startsWith("public class")) {
+                            if(s.contains("fragment") || s.contains("Fragment")) {
+                                isFragment = true;
+                            }
+                             bw.write(s+"\n");
+                        }else if (s.contains("public") && s.contains("void") && s.contains("initView()") && s.contains("{")) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(s);
                         sb.append("\n");
@@ -109,6 +121,9 @@ public class CopyFile {
                             sb.append("        ");
                             sb.append(map.get(key));
                             sb.append(" = ");
+                            if(isFragment) {
+                                    sb.append("getView().");
+                            }
                             sb.append("findViewById(R.id.");
                             sb.append(key);
                             sb.append(");");
@@ -152,45 +167,45 @@ public class CopyFile {
 
 
     // 使用示例
-    public static void main(String[] args) {
-
-        String rootPath ="D:\\temp";
-
-        boolean isFile = true;
-
-        if(isFile){
-            String resource =rootPath+"\\BindMobileActivity.java";
-            String target = rootPath+"\\BindMobileActivity2.java";
-
-            File targetFile =new File(target);
-            if(targetFile.exists()){
-                targetFile.delete();
-            }else{
-//            targetFile.mkdirs();
-            }
-
-            try {
-                copyFile(resource,target);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else{
-            String resource = rootPath+"\\dbex_android";
-            String target =rootPath+"\\dex_copy";
-
-            File targetFile =new File(target);
-            if(targetFile.exists()){
-                targetFile.delete();
-            }else{
-                targetFile.mkdirs();
-            }
-            try {
-                copyDir(resource, target);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
+//    public static void main(String[] args) {
+//
+//        String rootPath ="D:\\temp";
+//
+//        boolean isFile = true;
+//
+//        if(isFile){
+//            String resource =rootPath+"\\BindMobileActivity.java";
+//            String target = rootPath+"\\BindMobileActivity2.java";
+//
+//            File targetFile =new File(target);
+//            if(targetFile.exists()){
+//                targetFile.delete();
+//            }else{
+////            targetFile.mkdirs();
+//            }
+//
+//            try {
+//                copyFile(resource,target);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }else{
+//            String resource = rootPath+"\\dbex_android";
+//            String target =rootPath+"\\dex_copy";
+//
+//            File targetFile =new File(target);
+//            if(targetFile.exists()){
+//                targetFile.delete();
+//            }else{
+//                targetFile.mkdirs();
+//            }
+//            try {
+//                copyDir(resource, target);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
 
 }
