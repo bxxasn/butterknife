@@ -17,7 +17,9 @@ import java.util.regex.Pattern;
 
 /**
  * 
- * 吧项目中的Support 转成  AndroidX
+ 前置条件：https://www.jianshu.com/p/7dc111353328
+ 
+ * 把项目中的Support 转成  AndroidX
  * 
  * @author Administrator
  *
