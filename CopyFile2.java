@@ -3,9 +3,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 实现文件的拷贝
+   去掉ButterKnife
+ * 去掉BindView
  */
 public class CopyFile2 {
+
+  //bw.write(new String(s.getBytes("gbk"),"utf-8"));  解决中文乱码问题。
 
     /**
      * 复制目录
